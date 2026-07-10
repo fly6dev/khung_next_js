@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "NextJS Starter Boilerplate | Khung Dự Án Mẫu",
-  description: "Khung dự án NextJS App Router chuẩn dành cho lập trình viên React",
+  title: "NextJS + TailwindCSS Starter Boilerplate | Khung Dự Án Mẫu",
+  description: "Khung dự án NextJS App Router và TailwindCSS chuẩn dành cho lập trình viên React",
 };
 
 export default function RootLayout({
@@ -26,9 +26,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="vi" className={`${geistSans.variable} ${geistMono.variable}`}>
-      <body className="app-container">
+      <body className="min-h-screen bg-slate-950 text-slate-100 flex flex-col">
         <Navbar />
-        <main className="main-content">{children}</main>
+        <main className="flex-grow w-full max-w-6xl mx-auto px-4 pt-24 pb-12 flex flex-col">
+          {children}
+        </main>
         <Footer />
       </body>
     </html>

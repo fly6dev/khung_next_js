@@ -27,31 +27,34 @@ async function getPost(id: string): Promise<Post> {
 }
 
 export default async function PostDetailPage({ params }: PageProps) {
-  // Đối với Next.js 15/16, params là một Promise cần được await trước khi dùng
   const resolvedParams = await params;
   const post = await getPost(resolvedParams.id);
 
   return (
-    <div className="animate-fade-in" style={{ maxWidth: "800px", margin: "0 auto" }}>
-      <Link href="/posts" style={{ color: "var(--accent-primary)", display: "inline-flex", alignItems: "center", gap: "8px", marginBottom: "24px", fontWeight: "600" }}>
+    <div className="opacity-0 animate-[fadeIn_0.6s_ease-out_forwards] max-w-2xl mx-auto w-full">
+      <Link href="/posts" className="text-indigo-400 hover:text-indigo-300 font-semibold text-sm inline-flex items-center gap-1 mb-6">
         &larr; Quay lại danh sách bài viết
       </Link>
 
-      <div style={{ backgroundColor: "var(--bg-secondary)", border: "1px solid var(--border-color)", borderRadius: "var(--radius-lg)", padding: "40px" }}>
-        <div style={{ display: "flex", gap: "8px", marginBottom: "16px" }}>
-          <span className="badge badge-server">Server Page</span>
-          <span className="badge badge-api">ID: {post.id}</span>
+      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-8 md:p-10">
+        <div className="flex gap-2 mb-4">
+          <span className="text-xs font-bold px-2.5 py-0.5 rounded bg-indigo-950 text-indigo-400 border border-indigo-900/50">
+            Server Page
+          </span>
+          <span className="text-xs font-bold px-2.5 py-0.5 rounded bg-slate-950 text-slate-400 border border-slate-800">
+            ID: {post.id}
+          </span>
         </div>
 
-        <h1 style={{ fontSize: "2rem", textTransform: "capitalize", marginBottom: "20px", lineHeight: "1.3" }}>
+        <h1 className="text-2xl md:text-3xl font-extrabold text-white mb-6 capitalize leading-tight">
           {post.title}
         </h1>
 
-        <p style={{ color: "var(--text-secondary)", fontSize: "1.1rem", lineHeight: "1.8", marginBottom: "32px" }}>
+        <p className="text-slate-300 text-lg leading-relaxed mb-8">
           {post.body}
         </p>
 
-        <div style={{ borderTop: "1px solid var(--border-color)", paddingTop: "24px", display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: "0.9rem", color: "var(--text-muted)" }}>
+        <div className="border-t border-slate-800 pt-6 flex justify-between items-center text-sm text-slate-500">
           <span>Tác giả ID: {post.userId}</span>
           <span>Được fetch trực tiếp bởi App Router Dynamic Segment</span>
         </div>

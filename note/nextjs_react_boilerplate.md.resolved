@@ -1,0 +1,76 @@
+# Hướng dẫn Cấu trúc Thư mục Next.js (App Router) cho Lập trình viên React
+
+Chào bạn! Nếu bạn đã có kinh nghiệm với React (Vite hoặc Create React App), việc tiếp cận Next.js sẽ rất nhanh vì Next.js thực chất là một framework xây dựng trên React. Điểm khác biệt lớn nhất là **cơ chế Routing (Định tuyến)**, **Rendering (Render phía Server/Client)** và **Cấu trúc thư mục**.
+
+Dưới đây là so sánh chi tiết và sơ đồ cấu trúc của project boilerplate Next.js đã được tạo sẵn để bạn lưu về sử dụng.
+
+---
+
+## 1. So sánh React (Vite) vs Next.js (App Router)
+
+| Đặc trưng | React (Vite) | Next.js (App Router) |
+| :--- | :--- | :--- |
+| **Cơ chế Routing** | Sử dụng thư viện ngoài như `react-router-dom`. | **File-system Routing** (Định tuyến dựa trên thư mục trong `src/app`). |
+| **Rendering** | Client-Side Rendering (CSR). Toàn bộ code JS được tải về trình duyệt rồi mới render HTML. | Hỗ trợ Server-Side Rendering (SSR), Static Site Generation (SSG), và Client-Side Rendering (CSR). |
+| **Components** | Mặc định là Client Components. | Mặc định là **Server Components** (tốt cho SEO & hiệu năng). Muốn dùng React hooks (`useState`, `useEffect`), ta thêm dòng `'use client'` ở đầu file. |
+| **API Backend** | Cần viết server riêng (NodeJS, Python, v.v.). | Có sẵn **Route Handlers** (viết API ngay trong thư mục `src/app/api/...`). |
+
+---
+
+## 2. Sơ đồ Cấu trúc Thư mục Boilerplate của Bạn
+
+Đây là cấu trúc thư mục chuẩn, chuyên nghiệp và tối ưu cho Next.js:
+
+```text
+khung/
+├── public/                 # Các file tĩnh (ảnh, favicon, font, v.v.)
+│   ├── next.svg
+│   └── vercel.svg
+├── src/                    # Thư mục chứa mã nguồn chính
+│   ├── app/                # App Router (Quản lý các trang & route)
+│   │   ├── api/            # Các API endpoints (Backend tích hợp)
+│   │   │   └── hello/
+│   │   │       └── route.ts  # Endpoint: GET /api/hello
+│   │   ├── dashboard/      # Route: /dashboard (Trang Client Component ví dụ)
+│   │   │   └── page.tsx
+│   │   ├── posts/          # Route: /posts (Trang Server Component ví dụ)
+│   │   │   ├── page.tsx    # Danh sách bài viết (Fetch API trực tiếp trên server)
+│   │   │   └── [id]/       # Route động: /posts/1, /posts/2...
+│   │   │       └── page.tsx
+│   │   ├── globals.css     # CSS chung của toàn ứng dụng (Vanilla CSS)
+│   │   ├── layout.tsx      # Layout chung (Header, Footer, HTML skeleton)
+│   │   └── page.tsx        # Trang chủ (Route /)
+│   ├── components/         # Các Component React dùng chung (Navbar, Card, Button...)
+│   │   ├── Navbar.tsx
+│   │   ├── Footer.tsx
+│   │   └── UI/
+│   ├── lib/                # Thư viện dùng chung, config API, helper functions
+│   └── types/              # Định nghĩa Typescript cho toàn project
+├── package.json            # Quản lý dependencies & scripts
+├── tsconfig.json           # Cấu hình TypeScript
+└── next.config.ts          # Cấu hình Next.js
+```
+
+---
+
+## 3. Các quy tắc quan trọng khi làm việc với App Router
+
+### A. Quy tắc Routing (Định tuyến)
+- Mỗi thư mục trong `src/app` đại diện cho một phân đoạn URL (URL segment).
+- Để một thư mục trở thành một route hiển thị giao diện, nó **phải chứa file `page.tsx`**.
+  - Ví dụ: Thư mục `src/app/dashboard/` cần có file `page.tsx` để truy cập được địa chỉ `http://localhost:3000/dashboard`.
+- Các file có tên đặc biệt:
+  - `layout.tsx`: Định nghĩa bố cục chung cho route đó và các route con.
+  - `loading.tsx`: Tự động hiển thị trạng thái loading khi tải dữ liệu.
+  - `error.tsx`: Trang hiển thị lỗi khi có lỗi xảy ra.
+  - `not-found.tsx`: Trang 404 cho route.
+
+### B. Quy tắc Server vs Client Component
+- **Server Component (Mặc định):**
+  - Mọi file trong `src/app` mặc định là Server Component.
+  - Chạy trên server, không tải JS dư thừa xuống client.
+  - **Không dùng được** hooks (`useState`, `useEffect`, `useContext`) và không bắt được sự kiện phía Client (`onClick`, `onChange`).
+  - Phù hợp để fetch data từ Database/API ngoài.
+- **Client Component:**
+  - Để biến một component thành Client Component, hãy khai báo `"use client";` ở **dòng đầu tiên** của file.
+  - Sử dụng được toàn bộ React Hooks và các sự kiện bình thường giống y hệt như code React thuần.

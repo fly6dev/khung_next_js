@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 
 interface Post {
@@ -24,6 +25,29 @@ async function getPost(id: string): Promise<Post> {
   }
 
   return res.json();
+}
+
+// Hàm tối ưu hóa SEO động: Tự động chạy trên server để sinh Meta Tags (Title, Description, OG)
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const resolvedParams = await params;
+  try {
+    const post = await getPost(resolvedParams.id);
+    return {
+      title: `${post.title.toUpperCase()} | NextJS Demo Blog`,
+      description: post.body.slice(0, 150) + "...",
+      openGraph: {
+        title: post.title,
+        description: post.body.slice(0, 150) + "...",
+        type: "article",
+        url: `https://khung-next-js.vercel.app/posts/${post.id}`,
+      },
+    };
+  } catch (error) {
+    return {
+      title: "Bài viết không tìm thấy | NextJS Demo Blog",
+      description: "Chi tiết bài viết không tồn tại hoặc có lỗi xảy ra.",
+    };
+  }
 }
 
 export default async function PostDetailPage({ params }: PageProps) {

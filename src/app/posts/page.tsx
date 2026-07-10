@@ -1,4 +1,10 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Danh sách Bài viết | NextJS Demo Blog",
+  description: "Danh sách bài viết mẫu được render hoàn toàn từ server (Server-Side Rendering).",
+};
 
 interface Post {
   id: number;

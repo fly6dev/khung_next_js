@@ -1,8 +1,8 @@
 import { MetadataRoute } from "next";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  // Thay thế bằng domain thực tế của bạn khi bạn deploy website
-  const baseUrl = "https://khung-next-js.vercel.app";
+  // Tự động lấy domain từ file .env (.env.local ở dev, .env ở production)
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
   // Bạn có thể fetch dữ liệu động từ API hoặc Database để tạo sitemap tự động
   // Ví dụ: Lấy danh sách posts để đưa vào sitemap

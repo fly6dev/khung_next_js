@@ -39,7 +39,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         title: post.title,
         description: post.body.slice(0, 150) + "...",
         type: "article",
-        url: `https://khung-next-js.vercel.app/posts/${post.id}`,
+        url: `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/posts/${post.id}`,
       },
     };
   } catch (error) {
